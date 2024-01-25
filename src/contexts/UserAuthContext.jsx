@@ -36,10 +36,10 @@ export const UserAuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setToken(data.token);
-        // Fetch and set the user information here if needed
+        setUser(data.existingUser)
 
         // Save user session to localStorage
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(data.existingUser));
         localStorage.setItem("token", data.token);
       } else {
         console.error(response.statusText);
