@@ -69,3 +69,13 @@ button:focus-visible {
 body {
   margin: 0;
 }
+
+.background{
+  background-image: url("/bg-tile.jpg");
+  background-repeat: repeat;
+  opacity: 0.1;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: fixed;
+  z-index: -1000;
+}

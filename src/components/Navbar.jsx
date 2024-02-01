@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useUserAuthContext } from "../contexts/UserAuthContext";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -44,6 +45,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const { user, token, logoutUser } = useUserAuthContext();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -54,6 +56,11 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    // localStorage.clear();
+    logoutUser();
+  };
+
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -61,23 +68,21 @@ const Navbar = () => {
           TasteLink
         </Typography>
         <FoodBank sx={{ display: { xs: "block", sm: "none" } }} />
-        <Search>
-          <InputBase placeholder="search..." />
-        </Search>
-        <Icons>
-          {/* <Badge badgeContent={4} color="error">
+        {user !== null && (
+          <>
+            <Search>
+              <InputBase placeholder="search..." />
+            </Search>
+            <Icons>
+              {/* <Badge badgeContent={4} color="error">
             <ShoppingBasket />
           </Badge> */}
-          <Avatar
-            sx={{ width: 30, height: 30 }}
-            onClick={handleClick}
-          />
-        </Icons>
-        <UserBox onClick={handleClick}>
-          <Avatar sx={{ width: 30, height: 30 }} />
-        </UserBox>
-      </StyledToolbar>
-      <Menu
+              <Avatar sx={{ width: 30, height: 30 }} onClick={handleClick} />
+            </Icons>
+            <UserBox onClick={handleClick}>
+              <Avatar sx={{ width: 30, height: 30 }} />
+            </UserBox>
+            <Menu
         id="demo-positioned-menu"
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -93,8 +98,12 @@ const Navbar = () => {
       >
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
+          </>
+        )}
+      </StyledToolbar>
+      
     </AppBar>
   );
 };

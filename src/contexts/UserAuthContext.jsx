@@ -2,6 +2,8 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 
 const UserAuthContext = createContext();
 
+// const errorMessage = "";
+
 export const useUserAuthContext = () => {
   return useContext(UserAuthContext);
 };
@@ -11,6 +13,7 @@ export const UserAuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     // Check localStorage for existing user session
@@ -22,6 +25,10 @@ export const UserAuthProvider = ({ children }) => {
       setToken(storedToken);
     }
   }, []);
+
+  useEffect(() => {
+
+  },[errorMessage])
 
   const loginUser = async (email, password) => {
     try {
@@ -36,13 +43,16 @@ export const UserAuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setToken(data.token);
-        setUser(data.existingUser)
+        setUser(data.existingUser);
 
         // Save user session to localStorage
         localStorage.setItem("user", JSON.stringify(data.existingUser));
         localStorage.setItem("token", data.token);
       } else {
-        console.error(response.statusText);
+        // console.error(response);
+        const errorData = await response.json(); // Parse error response
+        setErrorMessage(errorData)
+        console.error(errorData.error);
       }
     } catch (error) {
       console.error(error);
@@ -100,6 +110,7 @@ export const UserAuthProvider = ({ children }) => {
     logoutUser,
     createUser,
     deleteUser,
+    errorMessage,
   };
 
   return (

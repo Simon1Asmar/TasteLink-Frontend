@@ -9,6 +9,7 @@ import OrdersHistoryPage from "./pages/OrdersHistoryPage";
 import OwnedRestaurantsPage from "./pages/OwnedRestaurantsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { UserAuthProvider } from "./contexts/UserAuthContext";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
             element={
               <Header>
                 <SignInOrUpPage />
+              </Header>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <Header>
+                <SignUpPage />
               </Header>
             }
           />
