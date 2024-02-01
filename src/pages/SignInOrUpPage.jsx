@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useUserAuthContext } from "../contexts/UserAuthContext"; // Provide the correct path
 import { Alert } from "@mui/material";
+import { ConstructionRounded } from "@mui/icons-material";
 
 function Copyright(props) {
   return (
@@ -38,7 +39,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const SignInOrUpPage = () => {
-  const { loginUser, errorMessage } = useUserAuthContext();
+  const { loginUser, errorMessage, createUser } = useUserAuthContext();
   const [isLoginForm, setIsLoginForm] = useState(true);
 
   const handleSubmit = async (event) => {
@@ -49,6 +50,24 @@ const SignInOrUpPage = () => {
 
     // Use loginUser from context to perform login
     await loginUser(email, password);
+  };
+  const handleSignUpSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const firstName = data.get("firstName");
+    const lastName = data.get("lastName");
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+    }
+
+    // Use loginUser from context to perform login
+    await createUser(userData);
   };
 
   const handleSignUpLink = (event) => {
@@ -158,7 +177,7 @@ const SignInOrUpPage = () => {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleSignUpSubmit}
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
@@ -204,14 +223,14 @@ const SignInOrUpPage = () => {
                     autoComplete="new-password"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <FormControlLabel
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
                     label="I want to receive inspiration, marketing promotions and updates via email."
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
               <Button
                 type="submit"

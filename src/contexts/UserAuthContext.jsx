@@ -31,6 +31,7 @@ export const UserAuthProvider = ({ children }) => {
   },[errorMessage])
 
   const loginUser = async (email, password) => {
+    setErrorMessage("")
     try {
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
@@ -60,6 +61,7 @@ export const UserAuthProvider = ({ children }) => {
   };
 
   const logoutUser = () => {
+    setErrorMessage("")
     // Clear user and token from state and localStorage
     setUser(null);
     setToken(null);
@@ -68,6 +70,7 @@ export const UserAuthProvider = ({ children }) => {
   };
 
   const createUser = async (userData) => {
+    setErrorMessage("")
     try {
       const response = await fetch(`${BASE_URL}`, {
         method: "POST",
@@ -87,6 +90,7 @@ export const UserAuthProvider = ({ children }) => {
   };
 
   const deleteUser = async (userId) => {
+    setErrorMessage("")
     try {
       const response = await fetch(`${BASE_URL}/${userId}`, {
         method: "DELETE",
